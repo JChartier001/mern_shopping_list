@@ -1,25 +1,23 @@
 import React, { useEffect } from 'react';
 import { Container, ListGroup, ListGroupItem, Button } from 'reactstrap';
 import { CSSTransition, TransitionGroup } from 'react-transition-group';
-import { connect } from 'react-redux';
+import {useSelector, useDispatch} from "react-redux";
 import { getItems, deleteItem } from '../flux/actions/itemActions';
-import { IItemReduxProps, IShoppingList } from '../types/interfaces';
 
-const ShoppingList = ({
-  getItems,
-  item,
-  isAuthenticated,
-  deleteItem
-}: IShoppingList) => {
+
+const ShoppingList = () => {
+  const item = useSelector(state => state.items)
+  const dispatch = useDispatch();
+  const isAuth
   useEffect(() => {
-    getItems();
+    dispatch(getItems());
   }, [getItems]);
 
-  const handleDelete = (id: string) => {
-    deleteItem(id);
+  const handleDelete = (id) => {
+    dispatch(deleteItem(id));
   };
 
-  const { items } = item;
+  
   return (
     <Container>
       <ListGroup>
@@ -47,9 +45,6 @@ const ShoppingList = ({
   );
 };
 
-const mapStateToProps = (state: IItemReduxProps) => ({
-  item: state.item,
-  isAuthenticated: state.auth.isAuthenticated
-});
 
-export default connect(mapStateToProps, { getItems, deleteItem })(ShoppingList);
+
+export default ShoppingList;

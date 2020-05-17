@@ -10,10 +10,10 @@ import {
   REGISTER_SUCCESS,
   REGISTER_FAIL
 } from './types';
-import { IAuthFunction, IConfigHeaders } from '../../types/interfaces';
+
 
 // Check token & load user
-export const loadUser = () => (dispatch: Function, getState: Function) => {
+export const loadUser = () =>  {
   // User loading
   dispatch({ type: USER_LOADING });
 
@@ -34,9 +34,7 @@ export const loadUser = () => (dispatch: Function, getState: Function) => {
 };
 
 // Register User
-export const register = ({ name, email, password }: IAuthFunction) => (
-  dispatch: Function
-) => {
+export const register = ({ name, email, password }) => {
   // Headers
   const config = {
     headers: {
@@ -66,9 +64,7 @@ export const register = ({ name, email, password }: IAuthFunction) => (
 };
 
 // Login User
-export const login = ({ email, password }: IAuthFunction) => (
-  dispatch: Function
-) => {
+export const login = (email, password) => {
   // Headers
   const config = {
     headers: {
@@ -105,12 +101,12 @@ export const logout = () => {
 };
 
 // Setup config/headers and token
-export const tokenConfig = (getState: Function) => {
+export const tokenConfig = (getState) => {
   // Get token from localstorage
   const token = getState().auth.token;
 
   // Headers
-  const config: IConfigHeaders = {
+  const config = {
     headers: {
       'Content-type': 'application/json'
     }

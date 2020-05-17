@@ -11,17 +11,17 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux';
 import { addItem } from '../flux/actions/itemActions';
-import { IItemReduxProps, IItemModal, ITarget } from '../types/interfaces';
 
-const ItemModal = ({ isAuthenticated, addItem }: IItemModal) => {
+
+const ItemModal = ( isAuthenticated, addItem ) => {
   const [modal, setModal] = useState(false);
   const [name, setName] = useState('');
 
   const handleToggle = () => setModal(!modal);
 
-  const handleChangeName = (e: ITarget) => setName(e.target.value);
+  const handleChangeName = (e) => setName({[e.target.name]:e.target.value});
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
 
     const newItem = {
@@ -29,7 +29,7 @@ const ItemModal = ({ isAuthenticated, addItem }: IItemModal) => {
     };
 
     // Add item via addItem action
-    addItem(newItem);
+    dispatch(addItem(newItem));
     // Close modal
     handleToggle();
   };
@@ -72,9 +72,4 @@ const ItemModal = ({ isAuthenticated, addItem }: IItemModal) => {
   );
 };
 
-const mapStateToProps = (state: IItemReduxProps) => ({
-  item: state.item,
-  isAuthenticated: state.auth.isAuthenticated
-});
-
-export default connect(mapStateToProps, { addItem })(ItemModal);
+export default ItemModal;

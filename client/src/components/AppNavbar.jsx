@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { useState } from 'react';
 import {
   Collapse,
   Navbar,
@@ -8,14 +8,16 @@ import {
   NavItem,
   Container
 } from 'reactstrap';
-import { connect } from 'react-redux';
+import {useSelector} from "react-redux";
 import RegisterModal from './auth/RegisterModal';
 import LoginModal from './auth/LoginModal';
 import Logout from './auth/Logout';
-import { IAppNavbar, IAuthReduxProps } from '../types/interfaces';
 
-const AppNavbar = ({ auth }: IAppNavbar) => {
+
+const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const auth = useSelector(state => state.auth);
+  const isAuth = useSelector(state => state.isAuthenticated);
 
   const handleToggle = () => setIsOpen(!isOpen);
 
@@ -62,8 +64,6 @@ const AppNavbar = ({ auth }: IAppNavbar) => {
   );
 };
 
-const mapStateToProps = (state: IAuthReduxProps) => ({
-  auth: state.auth
-});
 
-export default connect(mapStateToProps, null)(AppNavbar);
+
+export default AppNavbar;
