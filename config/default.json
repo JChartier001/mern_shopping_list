@@ -1,4 +1,4 @@
 {
-  "mongoURI": "PUT_YOUR_MONGO_URI",
+  "mongoURI": "mongodb+srv://owner:rAFXi5Kn6s3PPh1N@cluster0-dp6jo.mongodb.net/merproject?authSource=admin&replicaSet=Cluster0-shard-0&w=majority&readPreference=primary&retryWrites=true&ssl=true",
   "jwtSecret": "sl_myJwtSecret"
 }

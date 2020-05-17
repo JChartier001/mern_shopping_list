@@ -22,7 +22,7 @@ const AppNavbar = () => {
   const handleToggle = () => setIsOpen(!isOpen);
 
   const authLinks = (
-    <Fragment>
+    <div>
       <NavItem>
         <span className="navbar-text mr-3">
           <strong>
@@ -33,18 +33,18 @@ const AppNavbar = () => {
       <NavItem>
         <Logout />
       </NavItem>
-    </Fragment>
+    </div>
   );
 
   const guestLinks = (
-    <Fragment>
+    <div>
       <NavItem>
         <RegisterModal />
       </NavItem>
       <NavItem>
         <LoginModal />
       </NavItem>
-    </Fragment>
+    </div>
   );
 
   return (

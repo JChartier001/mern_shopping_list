@@ -2,9 +2,12 @@ import axios from 'axios';
 import { GET_ITEMS, ADD_ITEM, DELETE_ITEM, ITEMS_LOADING } from './types';
 import { tokenConfig } from './authActions';
 import { returnErrors } from './errorActions';
-import { IItem } from '../../types/interfaces';
+import {useDispatch} from "react-redux";
 
-export const getItems = () => (dispatch: Function) => {
+
+
+export const getItems = () => {
+  return dispatch => {
   dispatch(setItemsLoading());
   axios
     .get('/api/items')
@@ -17,12 +20,10 @@ export const getItems = () => (dispatch: Function) => {
     .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
-};
+}};
 
-export const addItem = (item: IItem) => (
-  dispatch: Function,
-  getState: Function
-) => {
+export const addItem = (item, getState) => {
+  return dispatch => {
   axios
     .post('/api/items', item, tokenConfig(getState))
     .then(res =>
@@ -34,12 +35,10 @@ export const addItem = (item: IItem) => (
     .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
-};
+}};
 
-export const deleteItem = (id: string) => (
-  dispatch: Function,
-  getState: Function
-) => {
+export const deleteItem = (id, getState) => {
+  return dispatch => {
   axios
     .delete(`/api/items/${id}`, tokenConfig(getState))
     .then(res =>
@@ -51,7 +50,7 @@ export const deleteItem = (id: string) => (
     .catch(err =>
       dispatch(returnErrors(err.response.data, err.response.status))
     );
-};
+}};
 
 export const setItemsLoading = () => {
   return {

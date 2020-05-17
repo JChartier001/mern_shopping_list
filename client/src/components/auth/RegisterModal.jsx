@@ -1,4 +1,5 @@
-import React, { useState, useCallback, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
+import {useDispatch, useSelector} from "react-redux";
 import {
   Button,
   Modal,
@@ -11,77 +12,70 @@ import {
   NavLink,
   Alert
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import { register } from '../../flux/actions/authActions';
 import { clearErrors } from '../../flux/actions/errorActions';
-import {
-  IRegisterModal,
-  ITarget,
-  IAuthReduxProps
-} from '../../types/interfaces';
 
-const RegisterModal = ({
-  isAuthenticated,
-  error,
-  register,
-  clearErrors
-}: IRegisterModal) => {
-  const [modal, setModal] = useState(false);
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
-  const [msg, setMsg] = useState(null);
+const RegisterModal = () => {
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.error)
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  const [state, setState] = useState({
+    modal: false,
+    name: "",
+    email: "",
+    password: "",
+    msg: null
+  })
 
-  const handleToggle = useCallback(() => {
+  const toggle = () => {
     // Clear errors
-    clearErrors();
-    setModal(!modal);
-  }, [clearErrors, modal]);
+    dispatch(clearErrors());
+    setState({...state, modal: !state.modal});
+  };
 
-  const handleChangeName = (e: ITarget) => setName(e.target.value);
-  const handleChangeEmail = (e: ITarget) => setEmail(e.target.value);
-  const handleChangePassword = (e: ITarget) => setPassword(e.target.value);
+  const handleChange = (e) => setState({[e.target.name]: e.target.value});
+  
 
-  const handleOnSubmit = (e: any) => {
+  const handleOnSubmit = (e) => {
     e.preventDefault();
 
     // Create user object
     const user = {
-      name,
-      email,
-      password
+      name: state.name,
+      email: state.email,
+      password: state.password
     };
 
     // Attempt to login
-    register(user);
+    dispatch(register(user));
   };
 
   useEffect(() => {
     // Check for register error
     if (error.id === 'REGISTER_FAIL') {
-      setMsg(error.msg.msg);
+      setState({...state, msg: error.msg.msg});
     } else {
-      setMsg(null);
+      setState({...state, msg: null});
     }
 
     // If authenticated, close modal
-    if (modal) {
-      if (isAuthenticated) {
-        handleToggle();
+    if (state.modal) {
+      if (isAuth) {
+        toggle();
       }
     }
-  }, [error, handleToggle, isAuthenticated, modal]);
+  }, [error, toggle, isAuth, state.modal]);
 
   return (
     <div>
-      <NavLink onClick={handleToggle} href="#">
+      <NavLink onClick={toggle} href="#">
         Register
       </NavLink>
 
-      <Modal isOpen={modal} toggle={handleToggle}>
-        <ModalHeader toggle={handleToggle}>Register</ModalHeader>
+      <Modal isOpen={state.modal} toggle={toggle}>
+        <ModalHeader toggle={toggle}>Register</ModalHeader>
         <ModalBody>
-          {msg ? <Alert color="danger">{msg}</Alert> : null}
+          {state.msg ? <Alert color="danger">{state.msg}</Alert> : null}
           <Form onSubmit={handleOnSubmit}>
             <FormGroup>
               <Label for="name">Name</Label>
@@ -91,7 +85,7 @@ const RegisterModal = ({
                 id="name"
                 placeholder="Name"
                 className="mb-3"
-                onChange={handleChangeName}
+                onChange={handleChange}
               />
 
               <Label for="email">Email</Label>
@@ -101,7 +95,7 @@ const RegisterModal = ({
                 id="email"
                 placeholder="Email"
                 className="mb-3"
-                onChange={handleChangeEmail}
+                onChange={handleChange}
               />
 
               <Label for="password">Password</Label>
@@ -111,7 +105,7 @@ const RegisterModal = ({
                 id="password"
                 placeholder="Password"
                 className="mb-3"
-                onChange={handleChangePassword}
+                onChange={handleChange}
               />
               <Button color="dark" style={{ marginTop: '2rem' }} block>
                 Register
@@ -124,11 +118,6 @@ const RegisterModal = ({
   );
 };
 
-const mapStateToProps = (state: IAuthReduxProps) => ({
-  isAuthenticated: state.auth.isAuthenticated,
-  error: state.error
-});
 
-export default connect(mapStateToProps, { register, clearErrors })(
-  RegisterModal
-);
+
+export default RegisterModal;

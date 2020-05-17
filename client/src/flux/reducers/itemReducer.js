@@ -4,18 +4,15 @@ import {
   DELETE_ITEM,
   ITEMS_LOADING
 } from '../actions/types';
-import { IAction, IItem } from '../../types/interfaces';
 
 const initialState = {
   items: [],
   loading: false
 };
 
-interface IState {
-  items: IItem[];
-}
 
-export default function(state: IState = initialState, action: IAction) {
+
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ITEMS:
       return {

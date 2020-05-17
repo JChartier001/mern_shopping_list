@@ -49,18 +49,18 @@ const LoginModal = () => {
   useEffect(() => {
     // Check for register error
     if (error.id === 'LOGIN_FAIL') {
-      setMsg(error.msg.msg);
+      setState({...state, msg: error.msg.msg})
     } else {
-      setMsg(null);
+      setState({...state, msg: null});
     }
 
     // If authenticated, close modal
-    if (modal) {
+    if (state.modal) {
       if (isAuth) {
         toggle();
       }
     }
-  }, [error, toggle, isAuthenticated, modal]);
+  }, [error, toggle, isAuth, state.modal]);
 
   return (
     <div>
@@ -68,7 +68,7 @@ const LoginModal = () => {
         Login
       </NavLink>
 
-      <Modal isOpen={modal} toggle={toggle}>
+      <Modal isOpen={state.modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Login</ModalHeader>
         <ModalBody>
           {state.msg ? <Alert color="danger">{state.msg}</Alert> : null}

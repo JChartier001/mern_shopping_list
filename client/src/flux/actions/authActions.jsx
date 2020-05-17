@@ -14,6 +14,7 @@ import {
 
 // Check token & load user
 export const loadUser = () =>  {
+  return (dispatch, getState) => {
   // User loading
   dispatch({ type: USER_LOADING });
 
@@ -31,10 +32,11 @@ export const loadUser = () =>  {
         type: AUTH_ERROR
       });
     });
-};
+}};
 
 // Register User
 export const register = ({ name, email, password }) => {
+  return dispatch => {
   // Headers
   const config = {
     headers: {
@@ -61,10 +63,11 @@ export const register = ({ name, email, password }) => {
         type: REGISTER_FAIL
       });
     });
-};
+}};
 
 // Login User
 export const login = (email, password) => {
+  return dispatch => {
   // Headers
   const config = {
     headers: {
@@ -91,7 +94,7 @@ export const login = (email, password) => {
         type: LOGIN_FAIL
       });
     });
-};
+}};
 
 // Logout User
 export const logout = () => {

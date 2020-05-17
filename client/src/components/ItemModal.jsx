@@ -9,11 +9,12 @@ import {
   Label,
   Input
 } from 'reactstrap';
-import { connect } from 'react-redux';
+import {useDispatch} from "react-redux";
 import { addItem } from '../flux/actions/itemActions';
 
 
 const ItemModal = ( isAuthenticated, addItem ) => {
+  const dispatch = useDispatch();
   const [modal, setModal] = useState(false);
   const [name, setName] = useState('');
 

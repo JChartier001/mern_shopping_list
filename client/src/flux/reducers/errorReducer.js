@@ -1,5 +1,5 @@
 import { GET_ERRORS, CLEAR_ERRORS } from '../actions/types';
-import { IAction } from '../../types/interfaces';
+
 
 const initialState = {
   msg: {},
@@ -7,7 +7,7 @@ const initialState = {
   id: null
 };
 
-export default function(state = initialState, action: IAction) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case GET_ERRORS:
       return {
