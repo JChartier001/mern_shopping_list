@@ -12,7 +12,6 @@ import {
   NavLink,
   Alert
 } from 'reactstrap';
-import { connect } from 'react-redux';
 import { login } from '../../flux/actions/authActions';
 import { clearErrors } from '../../flux/actions/errorActions';
 
@@ -20,7 +19,7 @@ import { clearErrors } from '../../flux/actions/errorActions';
 const LoginModal = () => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.error);
-  const isAuth = useSelector(state => state.isAuthenticated)
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
   const [state, setState] = useState({
     modal: false,
     email: "",
@@ -28,20 +27,19 @@ const LoginModal = () => {
     msg: null
   });
   
-  const toggle = () => {
-    // Clear errors
+  const toggle = () => { 
     dispatch(clearErrors());
-    setState({...state, modal: !state.modal});
-  };
+    setState({...state, modal: !state.modal})
+  }
 
-  const handleChange = (e) => setState({[e.target.name]:e.target.value});
-  
+  const handleChange = (e) => {setState({...state, [e.target.name]:e.target.value})};
 
   const onSubmit = (e) => {
     e.preventDefault();
-
-    const user = { email: state.email, password: state.password };
-
+    const user = {
+      email: state.email,
+      password: state.password
+    };
     // Attempt to login
     dispatch(login(user));
   };
@@ -53,21 +51,19 @@ const LoginModal = () => {
     } else {
       setState({...state, msg: null});
     }
-
     // If authenticated, close modal
     if (state.modal) {
       if (isAuth) {
         toggle();
       }
     }
-  }, [error, toggle, isAuth, state.modal]);
+  }, [error]);
 
   return (
     <div>
       <NavLink onClick={toggle} href="#">
         Login
       </NavLink>
-
       <Modal isOpen={state.modal} toggle={toggle}>
         <ModalHeader toggle={toggle}>Login</ModalHeader>
         <ModalBody>
@@ -107,7 +103,8 @@ const LoginModal = () => {
       </Modal>
     </div>
   );
-};
+}
+
 
 
 

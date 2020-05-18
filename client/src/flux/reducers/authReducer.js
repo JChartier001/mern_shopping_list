@@ -11,12 +11,12 @@ import {
 
 const initialState = {
   token: localStorage.getItem('token'),
-  isAuthenticated: null,
+  isAuthenticated: false,
   isLoading: false,
   user: null
 };
 
-export default function(state = initialState, action: any) {
+export default function(state = initialState, action) {
   switch (action.type) {
     case USER_LOADING:
       return {

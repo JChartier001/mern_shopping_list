@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, Fragment } from 'react';
+
 import {
   Collapse,
   Navbar,
@@ -16,8 +17,11 @@ import Logout from './auth/Logout';
 
 const AppNavbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const auth = useSelector(state => state.auth);
-  const isAuth = useSelector(state => state.isAuthenticated);
+  const auth = useSelector(state => state.auth)
+  
+
+  
+  
 
   const handleToggle = () => setIsOpen(!isOpen);
 
@@ -36,16 +40,17 @@ const AppNavbar = () => {
     </div>
   );
 
-  const guestLinks = (
-    <div>
+  const guestLinks = (  
+    <Fragment>
       <NavItem>
         <RegisterModal />
       </NavItem>
       <NavItem>
         <LoginModal />
-      </NavItem>
-    </div>
+      </NavItem> 
+      </Fragment>   
   );
+  console.log(auth)
 
   return (
     <div>
@@ -54,8 +59,8 @@ const AppNavbar = () => {
           <NavbarBrand href="/">ShoppingList</NavbarBrand>
           <NavbarToggler onClick={handleToggle} />
           <Collapse isOpen={isOpen} navbar>
-            <Nav className="ml-auto" navbar>
-              {auth && auth.isAuthenticated ? authLinks : guestLinks}
+            <Nav className="ml-auto" navbar>             
+             {auth && auth.isAuthenticated == false ? guestLinks : authLinks}
             </Nav>
           </Collapse>
         </Container>

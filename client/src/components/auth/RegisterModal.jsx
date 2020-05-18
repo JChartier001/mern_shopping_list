@@ -28,14 +28,15 @@ const RegisterModal = () => {
   })
 
   const toggle = () => {
-    // Clear errors
     dispatch(clearErrors());
-    setState({...state, modal: !state.modal});
-  };
+    setState({...state, modal: !state.modal})
+    console.log(state, "toggle")
+  }
 
-  const handleChange = (e) => setState({[e.target.name]: e.target.value});
-  
-
+ const onChange = e => {
+   setState({...state, [e.target.name]: e.target.value})
+ }
+ 
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
@@ -64,7 +65,7 @@ const RegisterModal = () => {
         toggle();
       }
     }
-  }, [error, toggle, isAuth, state.modal]);
+  }, [error, isAuth, state.modal]);
 
   return (
     <div>
@@ -85,7 +86,7 @@ const RegisterModal = () => {
                 id="name"
                 placeholder="Name"
                 className="mb-3"
-                onChange={handleChange}
+                onChange={onChange}
               />
 
               <Label for="email">Email</Label>
@@ -95,7 +96,7 @@ const RegisterModal = () => {
                 id="email"
                 placeholder="Email"
                 className="mb-3"
-                onChange={handleChange}
+                onChange={onChange}
               />
 
               <Label for="password">Password</Label>
@@ -105,7 +106,7 @@ const RegisterModal = () => {
                 id="password"
                 placeholder="Password"
                 className="mb-3"
-                onChange={handleChange}
+                onChange={onChange}
               />
               <Button color="dark" style={{ marginTop: '2rem' }} block>
                 Register

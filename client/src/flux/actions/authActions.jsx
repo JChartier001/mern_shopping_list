@@ -66,7 +66,7 @@ export const register = ({ name, email, password }) => {
 }};
 
 // Login User
-export const login = (email, password) => {
+export const login = (user) => {
   return dispatch => {
   // Headers
   const config = {
@@ -76,10 +76,10 @@ export const login = (email, password) => {
   };
 
   // Request body
-  const body = JSON.stringify({ email, password });
+  // const body = JSON.stringify({ email, password });
 
   axios
-    .post('/api/auth/login', body, config)
+    .post('/api/auth/login', user, config)
     .then(res =>
       dispatch({
         type: LOGIN_SUCCESS,
@@ -98,9 +98,9 @@ export const login = (email, password) => {
 
 // Logout User
 export const logout = () => {
-  return {
-    type: LOGOUT_SUCCESS
-  };
+  return dispatch => {
+    dispatch({type: LOGOUT_SUCCESS})
+  }
 };
 
 // Setup config/headers and token

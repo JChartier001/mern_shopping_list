@@ -4,12 +4,14 @@ import ShoppingList from './components/ShoppingList';
 import ItemModal from './components/ItemModal';
 import { Container } from 'reactstrap';
 
+
 import { Provider } from 'react-redux';
 import store from './flux/store';
 import { loadUser } from './flux/actions/authActions';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './App.css';
+import RegisterModal from './components/auth/RegisterModal';
 
 const App = () => {
   useEffect(() => {

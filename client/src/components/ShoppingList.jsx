@@ -6,9 +6,11 @@ import { getItems, deleteItem } from '../flux/actions/itemActions';
 
 
 const ShoppingList = () => {
-  const items = useSelector(state => state.items)
+  const items = useSelector(state => state.item)
+  console.log(items.items, "items")
   const dispatch = useDispatch();
-  const isAuth = useSelector(state => state.auth.isAuth)
+  const isAuth = useSelector(state => state.auth.isAuthenticated)
+  console.log(isAuth)
   useEffect(() => {
     dispatch(getItems());
   }, [getItems]);
@@ -22,7 +24,7 @@ const ShoppingList = () => {
     <Container>
       <ListGroup>
         <TransitionGroup className="shopping-list">
-          {items && items.length > 0 ? items.map(({ _id, name }) => (
+          {items.items && items.items.length > 0 ? items.items.map(({ _id, name }) => (
             <CSSTransition key={_id} timeout={500} classNames="fade">
               <ListGroupItem>
                 {isAuth ? (

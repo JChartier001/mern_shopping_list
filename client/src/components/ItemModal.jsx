@@ -15,18 +15,21 @@ import { addItem } from '../flux/actions/itemActions';
 
 const ItemModal = ( isAuthenticated, addItem ) => {
   const dispatch = useDispatch();
-  const [modal, setModal] = useState(false);
-  const [name, setName] = useState('');
+  const [state, setState] = useState({
+    modal: false,
+    name: ""
+  })
+  
 
-  const handleToggle = () => setModal(!modal);
+  const handleToggle = () => setState({...state, modal: !state.modal});
 
-  const handleChangeName = (e) => setName({[e.target.name]:e.target.value});
+  const onChange = (e) => setState({...state, [e.target.name]:e.target.value});
 
   const handleOnSubmit = (e) => {
     e.preventDefault();
 
     const newItem = {
-      name
+      name: state.name
     };
 
     // Add item via addItem action
@@ -49,7 +52,7 @@ const ItemModal = ( isAuthenticated, addItem ) => {
         <h4 className="mb-3 ml-4">Please log in to manage items</h4>
       )}
 
-      <Modal isOpen={modal} toggle={handleToggle}>
+      <Modal isOpen={state.modal} toggle={handleToggle}>
         <ModalHeader toggle={handleToggle}>Add To Shopping List</ModalHeader>
         <ModalBody>
           <Form onSubmit={handleOnSubmit}>
@@ -60,9 +63,9 @@ const ItemModal = ( isAuthenticated, addItem ) => {
                 name="name"
                 id="item"
                 placeholder="Add shopping item"
-                onChange={handleChangeName}
+                onChange={onChange}
               />
-              <Button color="dark" style={{ marginTop: '2rem' }} block>
+              <Button type="submit" color="dark" style={{ marginTop: '2rem' }} block>
                 Add Item
               </Button>
             </FormGroup>
